@@ -6,11 +6,12 @@ type GameTree = { i: number; j: number; nextMoves: GameTree }[];
 function runGame(tubes: Tube[], maxMoves: number = 100000): GameTree {
   let moveCount = 0;
 
-  let queue = [{ tubes: tubes, history: new Set(), path: [] }];
+  let queue = [{ tubes: tubes, path: [] }];
   let gameTrees = [];
+  const history = new Set([JSON.stringify(tubes)]); // Global history
 
   while (queue.length > 0 && moveCount < maxMoves) {
-    const { tubes: currentTubes, history, path } = queue.shift();
+    const { tubes: currentTubes, path } = queue.shift();
     let children = [];
 
     for (let i = 0; i < currentTubes.length; i++) {
@@ -25,11 +26,7 @@ function runGame(tubes: Tube[], maxMoves: number = 100000): GameTree {
             moveCount++;
 
             const newPath = path.concat([{ i, j }]);
-            queue.push({
-              tubes: updatedTubes,
-              history: new Set(history),
-              path: newPath,
-            });
+            queue.push({ tubes: updatedTubes, path: newPath });
 
             children.push({
               i,
