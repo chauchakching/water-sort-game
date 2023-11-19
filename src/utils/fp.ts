@@ -8,6 +8,8 @@ import {
   takeLeft,
 } from 'fp-ts/Array';
 
+export { groupBy } from 'ramda';
+
 export { range } from 'fp-ts/NonEmptyArray';
 import { range } from 'fp-ts/NonEmptyArray';
 export {
@@ -30,7 +32,7 @@ export function splitRightWhile<T>(f: (x: T) => boolean, arr: T[]) {
 
 export function splitEvery<T>(n: number, xs: T[]) {
   return range(0, Math.floor(xs.length / n)).map((i) =>
-    takeLeft(n)(dropLeft(i * n)(xs))
+    takeLeft(n)(dropLeft(i * n)(xs)),
   );
 }
 

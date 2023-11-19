@@ -200,4 +200,6 @@ export const gameUtil = {
   won,
   randomSolvableGame,
   isDeadGame,
+  getTubeTopColor,
+  isTubeFullWithOneColor,
 };

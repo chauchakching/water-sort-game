@@ -2,6 +2,7 @@ import { makeAutoObservable, toJS } from 'mobx';
 import { MAX_COLOR_COUNT, MAX_TUBES_PER_ROW } from '../constants/gameConstants';
 import { Tube } from '../types/gameTypes';
 import { gameUtil } from '../utils/gameUtil';
+import { gameHeuristicsUtil } from '../utils/gameHeuristicsUtil';
 
 class GameStore {
   constructor() {
@@ -10,8 +11,8 @@ class GameStore {
 
   // colorCount: number = Number(localStorage.getItem('colorCount')) || 2;
   // tubeCount: number = Number(localStorage.getItem('tubeCount')) || 4;
-  colorCount: number = 20;
-  tubeCount: number = 24;
+  colorCount: number = 5;
+  tubeCount: number = 6;
 
   initTubes: Tube[] = [];
   tubes: Tube[] = [];
@@ -35,6 +36,8 @@ class GameStore {
     }
     this.initTubes = newGame;
     this.tubes = this.initTubes;
+
+    gameHeuristicsUtil.estimateDifficulty(toJS(this.initTubes));
   }
 
   reset() {
