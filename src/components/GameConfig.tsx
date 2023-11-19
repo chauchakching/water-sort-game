@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { gameStore } from '../stores/GameStore';
+import { Button } from './Button';
 
 export const GameConfig = observer(() => {
   return (
@@ -49,20 +50,20 @@ export const GameConfig = observer(() => {
           </button>
         </div>
 
-        <button
-          className="border px-2 rounded mt-2"
+        <Button
+          className="mt-2"
           onClick={() => {
             gameStore.newGame();
           }}
         >
           New Game
-        </button>
+        </Button>
       </div>
 
       <div className="flex">
         {gameStore.canUndoMove && (
-          <button
-            className="border px-2 rounded mr-1"
+          <Button
+            className="mr-1"
             onClick={() => {
               gameStore.undoMove();
             }}
@@ -81,17 +82,16 @@ export const GameConfig = observer(() => {
                 d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
               />
             </svg>
-          </button>
+          </Button>
         )}
 
-        <button
-          className="border px-2 rounded ml-4"
+        <Button
           onClick={() => {
             gameStore.reset();
           }}
         >
           Reset
-        </button>
+        </Button>
       </div>
     </div>
   );
