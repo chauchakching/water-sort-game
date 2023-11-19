@@ -54,7 +54,7 @@ function pour({
 
   const [remaining, poured] = splitRightWhile(
     (x) => x === color,
-    tubes[i].colors
+    tubes[i].colors,
   );
   const jTotal = [...tubes[j].colors, ...poured];
 
@@ -79,7 +79,7 @@ function pour({
 
 function won(tubes: Tube[]): boolean {
   return tubes.every(
-    (tube) => isTubeEmpty(tube) || isTubeFullWithOneColor(tube)
+    (tube) => isTubeEmpty(tube) || isTubeFullWithOneColor(tube),
   );
 }
 
@@ -195,6 +195,7 @@ function isDeadGame(tubes: Tube[]): boolean {
 }
 
 export const gameUtil = {
+  isTubeEmpty,
   pour,
   won,
   randomSolvableGame,

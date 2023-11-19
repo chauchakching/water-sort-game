@@ -49,6 +49,9 @@ class GameStore {
 
   selectTube(i: number) {
     if (this.selectedFirstTube === null) {
+      if (gameUtil.isTubeEmpty(this.tubes[i])) {
+        return;
+      }
       this.selectedFirstTube = i;
     } else if (this.selectedFirstTube === i) {
       this.selectedFirstTube = null;
