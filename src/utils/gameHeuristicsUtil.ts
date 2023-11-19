@@ -7,12 +7,10 @@ function runGame(tubes: Tube[], maxMoves: number = 100000): GameTree {
   let moveCount = 0;
 
   let queue = [{ tubes: tubes, path: [] }];
-  let gameTrees = [];
   const history = new Set([JSON.stringify(tubes)]); // Global history
 
   while (queue.length > 0 && moveCount < maxMoves) {
     const { tubes: currentTubes, path } = queue.shift();
-    let children = [];
 
     for (let i = 0; i < currentTubes.length; i++) {
       for (let j = 0; j < currentTubes.length; j++) {
@@ -25,47 +23,21 @@ function runGame(tubes: Tube[], maxMoves: number = 100000): GameTree {
             history.add(tubesKey);
             moveCount++;
 
-            const newPath = path.concat([{ i, j }]);
+            const newPath = path.concat([{ i, j, nextMoves: [] }]);
             queue.push({ tubes: updatedTubes, path: newPath });
-
-            children.push({
-              i,
-              j,
-              nextMoves: [], // Will be filled in subsequent iterations
-            });
           }
         }
       }
     }
-
-    gameTrees.push({ path, children });
   }
 
   if (moveCount >= maxMoves) {
-    console.log('reached max game tree exploration limit', maxMoves);
+    console.log('Reached max game tree exploration limit:', maxMoves);
   } else {
-    console.log('total move count explored', moveCount);
+    console.log('Total move count explored:', moveCount);
   }
 
-  // Construct the game tree from the paths and children
-  function buildGameTree(paths, children) {
-    let tree = [];
-    paths.forEach((path, index) => {
-      let node = path[path.length - 1];
-      if (node) {
-        node.nextMoves = children[index].children;
-        tree.push(node);
-      }
-    });
-    return tree;
-  }
-
-  const gameTree = buildGameTree(
-    gameTrees.map((tree) => tree.path),
-    gameTrees,
-  );
-
-  return gameTree;
+  return queue.map((item) => item.path).flat();
 }
 
 function colorAndTubeCountEstimator(tubes: Tube[]): number {
