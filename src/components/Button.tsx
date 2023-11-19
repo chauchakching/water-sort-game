@@ -6,9 +6,10 @@ export const Button = (props: React.ComponentProps<typeof motion.button>) => {
     <motion.button
       type="button"
       whileTap={{ scale: 0.98, backgroundColor: '#f9f9f9' }}
-      style={{ backgroundColor: '#fff' }}
       {...props}
-      className={`border px-2 rounded ml-4 ${props.className ?? ''}`}
+      className={`border px-2 rounded ml-4 bg-white hover:bg-gray-50 ${
+        props.className ?? ''
+      }`}
     ></motion.button>
   );
 };
