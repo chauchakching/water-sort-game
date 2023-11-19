@@ -17,8 +17,8 @@ export const COLOR = {
   SKY: 'sky-300',
   EMERALD: 'emerald-500',
   CYAN: 'cyan-800',
-  COOLGRAY: 'coolgray-400',
-  WARMGRAY: 'warmgray-600',
+  FUCHSIA_400: 'fuchsia-400',
+  LIME_200: 'lime-200',
 };
 
 export const MAX_GAME_GENERATION_RETRY = 10;
