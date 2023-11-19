@@ -7,7 +7,7 @@ function runGame(tubes: Tube[], maxMoves: number = 100000): GameTree {
   let moveCount = 0;
 
   let queue = [{ tubes: tubes, path: [] }];
-  const history = new Set([JSON.stringify(tubes)]); // Global history
+  const history = new Set([serializeTubes(tubes)]); // Using custom serialization for history
 
   while (queue.length > 0 && moveCount < maxMoves) {
     const { tubes: currentTubes, path } = queue.shift();
@@ -18,7 +18,7 @@ function runGame(tubes: Tube[], maxMoves: number = 100000): GameTree {
 
         const updatedTubes = gameUtil.pour({ i, j, tubes: currentTubes });
         if (updatedTubes) {
-          const tubesKey = JSON.stringify(updatedTubes);
+          const tubesKey = serializeTubes(updatedTubes);
           if (!history.has(tubesKey)) {
             history.add(tubesKey);
             moveCount++;
@@ -38,6 +38,13 @@ function runGame(tubes: Tube[], maxMoves: number = 100000): GameTree {
   }
 
   return queue.map((item) => item.path).flat();
+}
+
+// Custom serialization function for tubes
+function serializeTubes(tubes: Tube[]): string {
+  // Serialize each tube and sort the serialized strings
+  const serializedTubes = tubes.map((tube) => tube.colors.join(',')).sort();
+  return serializedTubes.join('|');
 }
 
 function colorAndTubeCountEstimator(tubes: Tube[]): number {
