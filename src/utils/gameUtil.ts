@@ -1,6 +1,6 @@
-import { COLOR, MAX_GAME_GENERATION_RETRY } from '../constants/gameConstants';
+import { COLORS, MAX_GAME_GENERATION_RETRY } from '../constants/gameConstants';
 import { Tube } from '../types/gameTypes';
-import { last, splitRightWhile, takeLeft } from './fp';
+import { last, range, splitRightWhile, takeLeft } from './fp';
 
 function isTubeEmpty(tube: Tube) {
   return tube.colors.length === 0;
@@ -124,7 +124,7 @@ function randomGame({
   }));
 
   // Create and shuffle color array
-  let colors = takeLeft(colorCount)(Object.values(COLOR));
+  let colors = takeLeft(colorCount)(range(0, COLORS.length));
   colors = repeatAndShuffle(colors, tubeSize);
 
   // Distribute colors into tubes
@@ -142,7 +142,7 @@ function randomGame({
   return tubes;
 }
 
-function repeatAndShuffle(array: string[], times: number): string[] {
+function repeatAndShuffle<T>(array: T[], times: number): T[] {
   let result = [];
   for (let i = 0; i < times; i++) {
     result = result.concat(array);

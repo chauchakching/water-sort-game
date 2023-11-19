@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
-import { MAX_TUBES_PER_ROW } from '../constants/gameConstants';
+import { COLORS, MAX_TUBES_PER_ROW } from '../constants/gameConstants';
 import { gameStore } from '../stores/GameStore';
 import { splitEvery } from '../utils/fp';
 import { DeadGameBackgroundImage } from './DeadGameBackgroundImage';
@@ -39,7 +39,7 @@ export const Game = observer(() => {
                 return (
                   <Tube
                     size={tube.size}
-                    colors={tube.colors}
+                    colors={tube.colors.map((x) => COLORS[x])}
                     selected={gameStore.selectedFirstTube === idx}
                     onClick={() => {
                       gameStore.selectTube(idx);

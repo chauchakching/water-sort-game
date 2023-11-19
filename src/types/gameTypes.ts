@@ -1,1 +1,1 @@
-export type Tube = { size: number; colors: string[] };
+export type Tube = { size: number; colors: number[] };

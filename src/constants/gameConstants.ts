@@ -21,6 +21,8 @@ export const COLOR = {
   LIME_200: 'lime-200',
 };
 
+export const COLORS = Object.values(COLOR);
+
 export const MAX_GAME_GENERATION_RETRY = 10;
 
 export const MAX_COLOR_COUNT = 24;
