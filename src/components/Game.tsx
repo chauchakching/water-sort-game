@@ -119,7 +119,6 @@ const LoadingOverlay = () => (
 export const Game = observer(() => {
   useEffect(() => {
     gameStore.newGame();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameStore.colorCount, gameStore.tubeCount]);
 
   return (
