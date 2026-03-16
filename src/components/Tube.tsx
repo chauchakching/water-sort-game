@@ -1,46 +1,74 @@
-import { motion } from "framer-motion";
-import { range } from "../utils/fp";
+import { motion } from 'framer-motion';
+import { range } from '../utils/fp';
+
+const TUBE_INNER_WIDTH = 48;
+const SEGMENT_HEIGHT = 36;
+const TOP_HEIGHT = 18;
 
 export const Tube = ({
   size,
   colors,
   selected,
+  completed,
   onClick,
 }: {
   size: number;
   colors: string[];
   selected: boolean;
+  completed: boolean;
   onClick: () => void;
 }) => {
+  const borderColor = completed
+    ? '#34d399' // emerald-400
+    : selected
+      ? '#38bdf8' // sky-400
+      : 'rgba(255,255,255,0.2)';
+
+  const boxShadow = completed
+    ? '0 0 18px rgba(52,211,153,0.55)'
+    : selected
+      ? '0 0 18px rgba(56,189,248,0.55)'
+      : '0 0 0px transparent';
+
   return (
     <motion.div
-      className={`flex flex-col border-b-2 border-l-2 border-r-2 rounded-b-full w-7 cursor-pointer`}
       onClick={onClick}
-      animate={
-        selected
-          ? { scale: 1.1, boxShadow: "6px 6px 8px rgba(0,0,0,0.2)" }
-          : { scale: 1, boxShadow: "0px 0px 0px rgba(0,0,0,0)" }
-      }
-      transition={{ type: "spring", stiffness: 1500, damping: 30 }}
+      animate={{
+        y: selected ? -12 : 0,
+        boxShadow,
+      }}
+      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+      style={{
+        width: TUBE_INNER_WIDTH + 4,
+        display: 'flex',
+        flexDirection: 'column',
+        borderLeft: `2px solid ${borderColor}`,
+        borderRight: `2px solid ${borderColor}`,
+        borderBottom: `2px solid ${borderColor}`,
+        borderRadius: '0 0 9999px 9999px',
+        cursor: 'pointer',
+        flexShrink: 0,
+      }}
     >
-      <div className={`w-6 h-3`}></div>
+      {/* tube opening indicator */}
+      <div style={{ height: TOP_HEIGHT }} />
+
+      {/* water segments, rendered top→bottom (index size-1 down to 0) */}
       {range(0, size - 1)
         .reverse()
         .map((i: number) => {
-          const color = colors[i] ? `bg-${colors[i]}` : "";
+          const colorClass = colors[i] ? `bg-${colors[i]}` : '';
           return (
             <div
               key={i}
-              className={`w-6 h-6 ${color}`}
-              style={
-                i === 0
-                  ? {
-                      borderBottomLeftRadius: 12,
-                      borderBottomRightRadius: 12,
-                    }
-                  : {}
-              }
-            ></div>
+              className={colorClass}
+              style={{
+                width: TUBE_INNER_WIDTH,
+                height: SEGMENT_HEIGHT,
+                borderBottomLeftRadius: i === 0 ? 9999 : 0,
+                borderBottomRightRadius: i === 0 ? 9999 : 0,
+              }}
+            />
           );
         })}
     </motion.div>
