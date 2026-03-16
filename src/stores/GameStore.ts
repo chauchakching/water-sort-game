@@ -245,7 +245,12 @@ class GameStore {
   // ── Settings ─────────────────────────────────────────────────────────────────
 
   updateColorCount(x: number) {
-    this.colorCount = Math.max(2, Math.min(MAX_COLOR_COUNT, this.tubeCount - 1, x));
+    this.colorCount = Math.max(2, Math.min(MAX_COLOR_COUNT, x));
+    // Ensure tubeCount stays at least colorCount + 1
+    if (this.tubeCount <= this.colorCount) {
+      this.tubeCount = this.colorCount + 1;
+      localStorage.setItem('tubeCount', String(this.tubeCount));
+    }
     localStorage.setItem('colorCount', String(this.colorCount));
   }
 

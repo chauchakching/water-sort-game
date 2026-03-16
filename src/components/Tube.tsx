@@ -105,6 +105,8 @@ export const Tube = ({
       aria-label={`Tube with ${colors.filter(Boolean).length} of ${size} slots filled`}
       role="button"
       tabIndex={0}
+      data-testid="tube"
+      data-state={state}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
