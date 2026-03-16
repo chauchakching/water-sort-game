@@ -7,7 +7,7 @@ function runGame(tubes: Tube[], maxMoves: number = 100000): GameTree {
   let moveCount = 0;
 
   let queue = [{ tubes: tubes, path: [] }];
-  const history = new Set([serializeTubes(tubes)]); // Using custom serialization for history
+  const history = new Set([serializeTubes(tubes)]);
 
   while (queue.length > 0 && moveCount < maxMoves) {
     const { tubes: currentTubes, path } = queue.shift();
@@ -31,24 +31,16 @@ function runGame(tubes: Tube[], maxMoves: number = 100000): GameTree {
     }
   }
 
-  if (moveCount >= maxMoves) {
-    console.log('Reached max game tree exploration limit:', maxMoves);
-  } else {
-    console.log('Total move count explored:', moveCount);
-  }
-
   return queue.map((item) => item.path).flat();
 }
 
-// Custom serialization function for tubes
 function serializeTubes(tubes: Tube[]): string {
-  // Serialize each tube and sort the serialized strings
   const serializedTubes = tubes.map((tube) => tube.colors.join(',')).sort();
   return serializedTubes.join('|');
 }
 
 function colorAndTubeCountEstimator(tubes: Tube[]): number {
-  const colorSet = new Set();
+  const colorSet = new Set<number>();
   tubes.forEach((tube) => {
     tube.colors.forEach((color) => colorSet.add(color));
   });
@@ -74,32 +66,21 @@ function moveComplexityEstimator(tubes: Tube[]): number {
       }
     }
   }
-  return potentialMoves / 2; // Adjust factor as needed
+  return potentialMoves / 2;
 }
 
 function estimateDifficulty(tubes: Tube[]): string {
-  const gameTree = runGame(tubes);
+  runGame(tubes);
 
   const colorAndTubeCount = colorAndTubeCountEstimator(tubes);
   const initialDistribution = initialDistributionEstimator(tubes);
   const moveComplexity = moveComplexityEstimator(tubes);
 
-  const difficultyScore =
-    colorAndTubeCount + initialDistribution + moveComplexity;
+  const difficultyScore = colorAndTubeCount + initialDistribution + moveComplexity;
 
-  console.log('colorAndTubeCount', colorAndTubeCount);
-  console.log('initialDistribution', initialDistribution);
-  console.log('moveComplexity', moveComplexity);
-  console.log('=> difficultyScore', difficultyScore);
-
-  // Convert score to difficulty level
-  if (difficultyScore < 15) {
-    return 'Easy';
-  } else if (difficultyScore < 25) {
-    return 'Medium';
-  } else {
-    return 'Hard';
-  }
+  if (difficultyScore < 15) return 'Easy';
+  if (difficultyScore < 25) return 'Medium';
+  return 'Hard';
 }
 
 export const gameHeuristicsUtil = {
