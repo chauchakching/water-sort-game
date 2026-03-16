@@ -3,3 +3,7 @@
 
 # build
 /build
+
+# Playwright
+/playwright-report
+/test-results
